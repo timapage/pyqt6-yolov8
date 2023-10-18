@@ -1,4 +1,4 @@
-from PyQt5.QtCore import QThread, pyqtSignal
+from PyQt6.QtCore import QThread, pyqtSignal
 from src.models.detection.yolov8_detector_onnx import YoloDetector
 from src.models.pose.yolov8_pose_onnx import PoseDetector
 from src.models.segmentation.yolov8_seg_onnx import YOLOSeg
@@ -8,7 +8,7 @@ from src.utils.visualize import draw_results
 import os
 import cv2 as cv
 import numpy as np
-from PyQt5.QtGui import QImage
+from PyQt6.QtGui import QImage
 
 
 class FileProcessThread(QThread):
@@ -125,7 +125,7 @@ class FileProcessThread(QThread):
         if media_fmt == "video":
             blank_image = np.zeros((self.ih, self.iw, 3))
             blank_image = cv.cvtColor(blank_image.astype('uint8'), cv.COLOR_BGR2RGBA)
-            show_image = QImage(blank_image.data, blank_image.shape[1], blank_image.shape[0], QImage.Format_RGBA8888)
+            show_image = QImage(blank_image.data, blank_image.shape[1], blank_image.shape[0], QImage.Format.Format_RGBA8888)
             self.send_display_frame.emit(show_image)
             self.send_ai_output.emit([])
         self.send_thread_start_finish_flag.emit("waiting_for_setting")
@@ -157,4 +157,4 @@ class FileProcessThread(QThread):
         dw, dh = (screen_width - nw) // 2, (screen_height - nh) // 2
         image_paded[dh:nh + dh, dw:nw + dw, :] = image_resized
         image_paded = cv.cvtColor(image_paded.astype('uint8'), cv.COLOR_BGR2RGBA)
-        return QImage(image_paded.data, image_paded.shape[1], image_paded.shape[0], QImage.Format_RGBA8888)
+        return QImage(image_paded.data, image_paded.shape[1], image_paded.shape[0], QImage.Format.Format_RGBA8888)

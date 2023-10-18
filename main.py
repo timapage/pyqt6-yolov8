@@ -3,8 +3,8 @@ from src.qt.stream.visualize import VideoVisualizationThread
 from src.qt.stream.ai_worker import AiWorkerThread
 from src.ui.main_window import Ui_MainWindow
 from src.qt.video.video_worker import FileProcessThread
-from PyQt5 import QtGui, QtWidgets
-from PyQt5.QtCore import Qt
+from PyQt6 import QtGui, QtWidgets
+from PyQt6.QtCore import Qt
 import sys
 import numpy as np
 
@@ -40,7 +40,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.comboBox_model.currentTextChanged.connect(self.choose_model)
         self.pushButton_cam.clicked.connect(self.process_camera)
         self.pushButton_file.clicked.connect(self.process_file)
-        self.pushButton_stop.clicked.connect(self.stop_video)
+        self.pushButton_stop.clicked.connect(self.stop_video_from_yolov8)
         self.pushButton_play.clicked.connect(self.file_process_thread.toggle_play_pause)
 
     
@@ -188,7 +188,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.file_process_thread.send_thread_start_finish_flag.connect(self.buttons_states)
             self.file_process_thread.start()
 
-    def stop_video(self):
+    def stop_video_from_yolov8(self):
         self.display_thread.stop_display()
         self.ai_thread.stop_process()
         self.camera_thread.stop_capture()
@@ -212,7 +212,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.tableWidget_results.insertRow(row)
             for j in range(len(each_item)):
                 item = QtWidgets.QTableWidgetItem(str(each_item[j]))
-                item.setTextAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
+                item.setTextAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
                 self.tableWidget_results.setItem(row, j, item)
 
 
@@ -220,7 +220,7 @@ if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
     mainWindow = MainWindow()
     mainWindow.show()
-    sys.exit(app.exec_())
+    sys.exit(app.exec())
 
 
 

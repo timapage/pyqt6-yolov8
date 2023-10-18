@@ -1,4 +1,4 @@
-from PyQt5.QtCore import QThread, pyqtSignal
+from PyQt6.QtCore import QThread, pyqtSignal
 from src.models.detection.yolov8_detector_onnx import YoloDetector
 from src.models.pose.yolov8_pose_onnx import PoseDetector
 from src.models.segmentation.yolov8_seg_onnx import YOLOSeg
@@ -61,7 +61,7 @@ class AiWorkerThread(QThread):
             model_path=os.path.join(ROOT, f"src/models/tracking/deep_sort/deep/checkpoint/ckpt.t7"))
     
     def get_frame(self, frame_list):
-        self.latest_frame.put(frame=frame_list[1],frame_id=frame_list[0],realtime=True)
+        self.latest_frame.put(frame=frame_list[1], frame_id=frame_list[0], realtime=True)
     
     def stop_process(self):
         self.threadFlag = False
